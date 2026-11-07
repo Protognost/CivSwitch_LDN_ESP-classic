@@ -73,12 +73,12 @@ def main() -> int:
         print("E: --port is required with --flash", file=sys.stderr)
         return 1
 
-    esptool = [py, "-m", "esptool", "--chip", "esp32s3", "-p", args.port, "-b", "460800",
+    esptool = [py, "-m", "esptool", "--chip", "esp32", "-p", args.port, "-b", "460800",
                "--before", "default-reset", "--after", "hard-reset"]
     if args.erase:
         run(esptool + ["erase-flash"])
     run(esptool + ["write-flash", "--flash-mode", "dio", "--flash-freq", "80m",
-                   "--flash-size", "16MB",
+                   "--flash-size", "4MB",
                    "0x0", os.path.join(BUILD, "bootloader", "bootloader.bin"),
                    "0x8000", os.path.join(BUILD, "partition_table", "partition-table.bin"),
                    hex(APP_OFF), os.path.join(BUILD, "esp32-ldn-civ7.bin"),
